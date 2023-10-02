@@ -1,16 +1,38 @@
-# blogs
+# Blogs Flutter App
 
-A new Flutter project.
+This is a Flutter application that displays blogs from the internet. It provides a user-friendly interface for users to explore and interact with blog content.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Providers**: The app utilizes the Provider package for state management, allowing efficient data handling and updates.
 
-A few resources to get you started if this is your first Flutter project:
+- **Hive**: Local data persistence is achieved using Hive, which stores blogs locally for offline access.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Interactive UI**: The app features an interactive user interface, making it easy for users to navigate and interact with blog posts.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Material 3 Design**: It follows the Material 3 design principles, providing a modern and visually appealing user experience.
+
+## Sections
+
+### Home Section
+
+The Home section of the app displays a list of blogs fetched from the internet. Users can tap on individual blog posts to view their details.
+
+### Favorites Section
+
+The Favorites section allows users to mark blogs as their favorites. These favorite blogs can be easily accessed for quick reference.
+
+## Known Issues
+
+### Hive Local Storage
+
+There is a known issue with the Hive local storage functionality in the app. Users may experience problems related to data retrieval and storage. This issue is currently being investigated and will be addressed in future updates.
+
+## Video Preview
+
+A video preview of the app's functionality and features will be uploaded soon. Stay tuned for an in-depth demonstration of how the app works!
+
+---[flutter-blog.webm](https://github.com/red-malone/Blog-Display/assets/96327578/102f2571-bac0-4589-8e8a-8e8b1279a07b)
+
+
+Thank you for using the Blogs Flutter App! If you encounter any issues or have suggestions for improvement, please feel free to reach out to us. Your feedback is valuable as we continue to enhance the app's performance and user experience.
