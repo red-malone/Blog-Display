@@ -59,23 +59,30 @@ class BlogDisplay extends StatelessWidget {
                   ),
                 ),
         ),
+        const SizedBox(height: 16,),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            blog.title,
-            style: TextStyle(
-              fontSize: 20, // Adjust the font size as needed
-              fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              blog.title,
+              style: const TextStyle(
+                fontSize: 20, 
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            blog.id,
-            style: TextStyle(
-              fontSize: 16, // Adjust the font size as needed
-              color: Colors.grey,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              blog.id,
+              style: TextStyle(
+                fontSize: 16, 
+                color: Colors.grey,
+              ),
             ),
           ),
         ),
