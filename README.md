@@ -30,10 +30,6 @@ There is a known issue with the Hive local storage functionality in the app. Use
 
 ## Video Preview
 
-A video preview of the app's functionality and features will be uploaded soon. Stay tuned for an in-depth demonstration of how the app works!
-
 
 [flutter-blog.webm](https://github.com/red-malone/Blog-Display/assets/96327578/071de734-a5a8-4a41-8e99-6fda7d2b74ed)
 
-
-Thank you for using the Blogs Flutter App! If you encounter any issues or have suggestions for improvement, please feel free to reach out to us. Your feedback is valuable as we continue to enhance the app's performance and user experience.
