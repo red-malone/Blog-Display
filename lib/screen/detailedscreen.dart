@@ -24,7 +24,7 @@ class BlogDisplay extends StatelessWidget {
                   .toggleFavorite(blog.id);
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(fav ? "Meal Removed" : "Meal Added")),
+                SnackBar(content: Text(fav ? "Blog Removed" : "Blog Added")),
               );
             },
           ),
