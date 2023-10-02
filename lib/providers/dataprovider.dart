@@ -1,4 +1,5 @@
-import 'package:blogs/blog.dart';
+import 'package:blogs/models/blog.dart';
+import 'package:blogs/models/favourites_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,7 @@ class BlogProvider extends ChangeNotifier {
 
   List<Blog> blogs = [];
   List<Blog> stored = [];
+  List<Blog> favourites = [];
 
   Future<void> fetchBlogs(BuildContext context) async {
     try {
@@ -38,5 +40,34 @@ class BlogProvider extends ChangeNotifier {
   Future<void> getStoredBlogs() async {
     final blogBox = await Hive.openBox('blogBox');
     stored = blogBox.get('blogs');
+  }
+
+  final FavoriteManager favoriteManager = FavoriteManager();
+
+  // Method to toggle the favorite status of a blog
+  void toggleFavorite(String blogId) {
+    if (favoriteManager.isFavorite(blogId)) {
+      favoriteManager.removeFromFavorites(blogId);
+    } else {
+      favoriteManager.addToFavorites(blogId);
+    }
+
+    // Save the updated favorite status to local storage (Hive) if needed
+
+    notifyListeners();
+  }
+
+  bool isfav(String blogid) {
+    if (favoriteManager.isFavorite(blogid)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Method to get a list of favorite blogs
+  Future<void> getFavoriteBlogs() async {
+    favourites =
+        blogs.where((blog) => favoriteManager.isFavorite(blog.id)).toList();
   }
 }

@@ -1,27 +1,53 @@
-import 'package:blogs/blog.dart';
+import 'package:blogs/models/blog.dart';
+import 'package:blogs/providers/dataprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BlogDisplay extends StatelessWidget {
   final Blog blog;
-  const BlogDisplay({super.key, required this.blog});
+  final bool offline;
+
+  const BlogDisplay({super.key, required this.blog, required this.offline});
 
   @override
   Widget build(BuildContext context) {
+    bool fav = Provider.of<BlogProvider>(context, listen: false).isfav(blog.id);
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(blog.title),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.favorite))
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(blog.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Provider.of<BlogProvider>(context, listen: false)
+                  .toggleFavorite(blog.id);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(fav ? "Meal Removed" : "Meal Added")),
+              );
+            },
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          
+          child: offline
+              ? Container(
+                  width: MediaQuery.of(context).size.width / 1,
+                  height: 200,
+                  color: Colors.grey,
+                  child: const Icon(Icons.image_not_supported_outlined),
+                )
+              : Card(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -32,11 +58,33 @@ class BlogDisplay extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(blog.title),
-                Text(blog.id),
-              ],
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            blog.title,
+            style: TextStyle(
+              fontSize: 20, // Adjust the font size as needed
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ));
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            blog.id,
+            style: TextStyle(
+              fontSize: 16, // Adjust the font size as needed
+              color: Colors.grey,
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
+      ),
+    );
   }
 }
