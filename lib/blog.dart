@@ -1,6 +1,14 @@
+import 'package:hive/hive.dart';
+
+part 'models/blog.g.dart';
+
+@HiveType(typeId: 1)
 class Blog {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String imageUrl;
+  @HiveField(2)
   final String title;
 
   Blog({

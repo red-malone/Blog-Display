@@ -1,5 +1,6 @@
-import 'package:blogs/models/blog.dart';
+import 'package:blogs/blog.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,6 +10,7 @@ class BlogProvider extends ChangeNotifier {
       '32qR4KmXOIpsGPQKMqEJHGJS27G5s7HdSKO3gdtQd2kv5e852SiYwWNfxkZOBuQ6';
 
   List<Blog> blogs = [];
+  List<Blog> stored = [];
 
   Future<void> fetchBlogs(BuildContext context) async {
     try {
@@ -19,6 +21,8 @@ class BlogProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['blogs'];
         blogs = data.map((item) => Blog.fromJson(item)).toList();
+        final blogBox = await Hive.openBox('blogBox');
+        await blogBox.put('blogs', blogs);
       } else {
         throw Exception('Failed to load blogs!');
       }
@@ -29,5 +33,10 @@ class BlogProvider extends ChangeNotifier {
         ),
       );
     }
+  }
+
+  Future<void> getStoredBlogs() async {
+    final blogBox = await Hive.openBox('blogBox');
+    stored = blogBox.get('blogs');
   }
 }

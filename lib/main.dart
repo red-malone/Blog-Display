@@ -1,19 +1,30 @@
 import 'package:blogs/providers/dataprovider.dart';
 import 'package:blogs/screen/display.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
+  await Hive.init(appDocumentDirectory.path);
+  await Hive.openBox('blogBox');
   final blogprovider =BlogProvider();
   runApp(
     ChangeNotifierProvider(
       create: (context) => blogprovider,
       child: MaterialApp(
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
+          useMaterial3: true,
+        ),
         home: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
-            title: Text('Blog List'),
+            title: const Text('Blog List'),
           ),
-          body: BlogListScreen(), 
+          body:const  BlogListScreen(), 
         ),
       ),
     ),
@@ -21,7 +32,6 @@ void main() {
 }
 
 class BlogListScreen extends StatelessWidget {
-  
   const BlogListScreen({super.key});
 
   @override
@@ -35,7 +45,13 @@ class BlogListScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            // If there's an error, try to load stored blogs
+            blogProvider.getStoredBlogs();
+            if (blogProvider.stored.isNotEmpty) {
+              return BlogListWidget(blogs: blogProvider.stored);
+            } else {
+              return Text('Error: ${snapshot.error}');
+            }
           } else {
             return BlogListWidget(blogs: blogProvider.blogs);
           }
@@ -46,30 +62,16 @@ class BlogListScreen extends StatelessWidget {
 }
 
 
+
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
 
-//   // This widget is the root of your application.
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
 //       title: 'Flutter Demo',
 //       theme: ThemeData(
-//         // This is the theme of your application.
-//         //
-//         // TRY THIS: Try running your application with "flutter run". You'll see
-//         // the application has a purple toolbar. Then, without quitting the app,
-//         // try changing the seedColor in the colorScheme below to Colors.green
-//         // and then invoke "hot reload" (save your changes or press the "hot
-//         // reload" button in a Flutter-supported IDE, or press "r" if you used
-//         // the command line to start the app).
-//         //
-//         // Notice that the counter didn't reset back to zero; the application
-//         // state is not lost during the reload. To reset the state, use hot
-//         // restart instead.
-//         //
-//         // This works for code too, not just values: Most code changes can be
-//         // tested with just a hot reload.
+
 //         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 //         useMaterial3: true,
 //       ),
