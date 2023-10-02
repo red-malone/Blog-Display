@@ -44,7 +44,7 @@ class BlogProvider extends ChangeNotifier {
 
   final FavoriteManager favoriteManager = FavoriteManager();
 
-  // Method to toggle the favorite status of a blog
+
   void toggleFavorite(String blogId) {
     if (favoriteManager.isFavorite(blogId)) {
       favoriteManager.removeFromFavorites(blogId);
@@ -52,7 +52,6 @@ class BlogProvider extends ChangeNotifier {
       favoriteManager.addToFavorites(blogId);
     }
 
-    // Save the updated favorite status to local storage (Hive) if needed
 
     notifyListeners();
   }
@@ -65,7 +64,7 @@ class BlogProvider extends ChangeNotifier {
     }
   }
 
-  // Method to get a list of favorite blogs
+
   Future<void> getFavoriteBlogs() async {
     favourites =
         blogs.where((blog) => favoriteManager.isFavorite(blog.id)).toList();
